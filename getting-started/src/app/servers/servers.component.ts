@@ -3,6 +3,13 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-servers',
   templateUrl: './servers.component.html',
+  styles: [
+    `
+      .white {
+        color: white;
+      }
+    `,
+  ],
   styleUrls: ['./servers.component.css'],
 })
 export class ServersComponent implements OnInit {
@@ -11,6 +18,19 @@ export class ServersComponent implements OnInit {
   userName = '';
   serverCreated = false;
   servers = ['test', 'test2'];
+  showSecret = true;
+  id = 1;
+  audClickButton: Array<{ id: number; date: string }> = [];
+
+  displayDetails(): void {
+    this.showSecret = !this.showSecret;
+    this.audClickButton.push({
+      id: this.id,
+      date: new Date().toLocaleString(),
+    });
+    this.id++;
+  }
+
   emptyName(): boolean {
     return this.userName.length === 0;
   }
