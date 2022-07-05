@@ -10,6 +10,7 @@ export class ServersComponent implements OnInit {
   serverName = 'Test';
   userName = '';
   serverCreated = false;
+  servers = ['test', 'test2'];
   emptyName(): boolean {
     return this.userName.length === 0;
   }
@@ -25,6 +26,7 @@ export class ServersComponent implements OnInit {
 
   onServerCreates() {
     this.serverCreated = true;
+    this.servers.push(this.serverName);
     this.serverCreationStatus = `Server ${this.serverName} Created`;
   }
 

@@ -12,11 +12,14 @@ import { Component } from '@angular/core';
   ],
 })
 export class ServerComponent {
-  serverId: number = 10;
+  static id: number = 1;
+  serverId: number;
   serverStatus: string = '';
 
   constructor() {
     this.serverStatus = Math.random() > 0.5 ? 'online' : 'offline';
+    this.serverId = ServerComponent.id;
+    ServerComponent.id++;
   }
 
   getServerStatus(): string {
