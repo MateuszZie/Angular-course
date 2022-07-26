@@ -27,4 +27,12 @@ export class AppComponent {
       content: bluePrintTemplate.serverContent,
     });
   }
+
+  onFirstChange(): void {
+    this.serverElements[0].name = "Changed!";
+  }
+
+  onFirstDestroy(): void {
+    this.serverElements.splice(0, 1);
+  }
 }
