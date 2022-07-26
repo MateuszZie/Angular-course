@@ -1,0 +1,14 @@
+<button class="btn btn-primary" (click)="start()">Start</button>
+<button class="btn btn-danger" (click)="stop()">Stop</button>
+<input [(ngModel)]="time" />
+<div class="row">
+  <div class="col-md-5">
+    <app-odd
+      ><p *ngFor="let number of oddNumbers">{{ number }}</p></app-odd
+    >
+  </div>
+  <div class="col-md-5">
+    <p>Even numbers Emited</p>
+    <app-even *ngFor="let number of evenNumbers" [even]="number"></app-even>
+  </div>
+</div>

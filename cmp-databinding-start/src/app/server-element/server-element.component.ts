@@ -38,38 +38,38 @@ export class ServerElementComponent
   @ContentChild("paragraph", { static: true }) paragraph: ElementRef;
 
   constructor() {
-    console.log("constructor called!");
+    // console.log("constructor called!");
   }
   ngOnDestroy(): void {
-    console.log("On Destroy called");
+    // console.log("On Destroy called");
   }
   ngAfterContentChecked(): void {
-    console.log("AfterContentChecked called!");
+    // console.log("AfterContentChecked called!");
   }
   ngAfterViewChecked(): void {
-    console.log("AfterViewChecked called!");
+    // console.log("AfterViewChecked called!");
   }
   ngAfterViewInit(): void {
-    console.log("afterViewInit Called");
-    console.log("Header text: " + this.header.nativeElement.textContent);
+    // console.log("afterViewInit Called");
+    // console.log("Header text: " + this.header.nativeElement.textContent);
   }
 
   ngAfterContentInit(): void {
-    console.log("afterContentInit Called");
-    console.log("Paragraph text: " + this.paragraph.nativeElement.textContent);
+    // console.log("afterContentInit Called");
+    // console.log("Paragraph text: " + this.paragraph.nativeElement.textContent);
   }
   ngDoCheck(): void {
-    console.log("DoCheck called!");
+    // console.log("DoCheck called!");
   }
 
   ngOnInit(): void {
-    console.log("ngOninit called!");
-    console.log("Header text: " + this.header.nativeElement.textContent);
-    console.log("Paragraph text: " + this.paragraph.nativeElement.textContent);
+    // console.log("ngOninit called!");
+    // console.log("Header text: " + this.header.nativeElement.textContent);
+    // console.log("Paragraph text: " + this.paragraph.nativeElement.textContent);
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log("NgOnChanges called!");
-    console.log(changes);
+    // console.log("NgOnChanges called!");
+    // console.log(changes);
   }
 }
