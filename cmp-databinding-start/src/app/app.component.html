@@ -17,7 +17,7 @@
       [srvElement]="element"
       [name]="element.name"
     >
-      <p>
+      <p #paragraph>
         <strong *ngIf="element.type === 'server'" style="color: red">{{
           element.content
         }}</strong>
