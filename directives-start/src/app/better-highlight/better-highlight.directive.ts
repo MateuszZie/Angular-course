@@ -1,6 +1,7 @@
 import {
   Directive,
   ElementRef,
+  HostBinding,
   HostListener,
   OnInit,
   Renderer2,
@@ -15,11 +16,15 @@ export class BetterHighlightDirective implements OnInit {
     // this.renderer.setStyle(this.elRef.nativeElement, "color", "green");
   }
 
+  @HostBinding("style.color") textColor: string = "black";
+
   @HostListener("mouseenter") mouseOver(event: Event) {
-    this.renderer.setStyle(this.elRef.nativeElement, "color", "green");
+    // this.renderer.setStyle(this.elRef.nativeElement, "color", "green");
+    this.textColor = "green";
   }
 
   @HostListener("mouseleave") mouseLeave(event: Event) {
-    this.renderer.setStyle(this.elRef.nativeElement, "color", "black");
+    // this.renderer.setStyle(this.elRef.nativeElement, "color", "black");
+    this.textColor = "black";
   }
 }
