@@ -33,6 +33,22 @@
           </li>
         </ul>
       </div>
+      <ng-template [ngIf]="!onlyOdd">
+        <div>
+          <ul class="list-group">
+            <li
+              class="list-group-item"
+              *ngFor="let number of evenNumbers"
+              [ngClass]="{ odd: number % 2 !== 0 }"
+              [ngStyle]="{
+                backgroundColor: number % 2 !== 0 ? 'orange' : 'transparent'
+              }"
+            >
+              {{ number }}
+            </li>
+          </ul>
+        </div>
+      </ng-template>
     </div>
   </div>
   <p appHighLight>My first Direcitve</p>
