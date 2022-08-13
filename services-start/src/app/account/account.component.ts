@@ -1,6 +1,5 @@
 import { Component, Input } from "@angular/core";
 import { AccountService } from "../accounts.services";
-import { LoggingService } from "../logging.services";
 
 @Component({
   selector: "app-account",
@@ -11,13 +10,9 @@ export class AccountComponent {
   @Input() account: { name: string; status: string };
   @Input() id: number;
 
-  constructor(
-    private loggingService: LoggingService,
-    private accountService: AccountService
-  ) {}
+  constructor(private accountService: AccountService) {}
 
   onSetTo(status: string) {
     this.accountService.onStatusChanged({ id: this.id, newStatus: status });
-    this.loggingService.logStatusChange(status);
   }
 }
