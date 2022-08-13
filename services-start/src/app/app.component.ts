@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 import { AccountService } from "./accounts.services";
-import { LoggingService } from "./logging.services";
 
 @Component({
   selector: "app-root",
@@ -10,7 +9,11 @@ import { LoggingService } from "./logging.services";
 export class AppComponent implements OnInit {
   accounts: { name: string; status: string }[] = [];
 
-  constructor(private accountService: AccountService) {}
+  constructor(private accountService: AccountService) {
+    accountService.updateStatus.subscribe((status: string) =>
+      alert("New status " + status)
+    );
+  }
 
   ngOnInit(): void {
     this.accounts = this.accountService.accounts;
