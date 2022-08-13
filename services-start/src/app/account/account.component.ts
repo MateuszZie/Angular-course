@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { AccountService } from "../accounts.services";
 import { LoggingService } from "../logging.services";
 
@@ -6,7 +6,6 @@ import { LoggingService } from "../logging.services";
   selector: "app-account",
   templateUrl: "./account.component.html",
   styleUrls: ["./account.component.css"],
-  providers: [LoggingService],
 })
 export class AccountComponent {
   @Input() account: { name: string; status: string };
