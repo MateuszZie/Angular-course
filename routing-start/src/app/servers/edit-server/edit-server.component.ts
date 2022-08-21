@@ -22,8 +22,8 @@ export class EditServerComponent implements OnInit {
   ngOnInit() {
     // console.log(this.rout.snapshot.queryParams);
     // console.log(this.rout.snapshot.fragment);
-    this.rout.queryParams.subscribe();
-    this.rout.queryParamMap.subscribe((queryParams: Params) => {
+    this.rout.fragment.subscribe();
+    this.rout.queryParams.subscribe((queryParams: Params) => {
       this.allowEdit = queryParams["allowEdit"] === "1" ? true : false;
     });
     this.rout.params.subscribe((params: Params) => {
