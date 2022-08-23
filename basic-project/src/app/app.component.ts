@@ -5,10 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
-  display = 'Book';
-
-  setViewName(viewName: string) {
-    this.display = viewName;
-  }
-}
+export class AppComponent {}
