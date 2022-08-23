@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { DropdownDirective } from './shered/dropdown.directive';
 import { ShoppingListService } from './shopping-list/shoppingList.service';
 import { AppRoutModule } from './app-routing.module';
+import { RecipeNoDetailComponent } from './recipes/recipe-no-detail/recipe-no-detail.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { AppRoutModule } from './app-routing.module';
     ShoppingListComponent,
     ShoppingEditComponent,
     DropdownDirective,
+    RecipeNoDetailComponent,
   ],
   imports: [BrowserModule, FormsModule, AppRoutModule],
   providers: [ShoppingListService],

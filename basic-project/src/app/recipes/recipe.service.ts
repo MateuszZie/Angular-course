@@ -21,13 +21,15 @@ export class RecipeService {
     ),
   ];
 
-  clickedRecipe = new EventEmitter<Recipe>();
-
   getRecipes() {
     return this.recipes.slice();
   }
 
   addIngeredientToShopingList(ingredients: Ingridient[]) {
     this.shoppingListService.addIngredients(ingredients);
+  }
+
+  getRecipe(id: number): Recipe {
+    return this.recipes[id];
   }
 }
