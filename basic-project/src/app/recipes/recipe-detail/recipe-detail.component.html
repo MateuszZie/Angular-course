@@ -20,12 +20,16 @@
         Manage Recipe<span class="caret"></span>
         <ul appDropdown class="dropdown-menu">
           <li>
-            <a style="cursor: pointer;" (click)="addIngeredientToShopingList()"
+            <a style="cursor: pointer" (click)="addIngeredientToShopingList()"
               >To Shoping List</a
             >
           </li>
-          <li><a style="cursor: pointer;">Edit Recipe</a></li>
-          <li><a style="cursor: pointer;">Delete Recipe</a></li>
+          <li>
+            <a [routerLink]="['../../', id, 'edit']" style="cursor: pointer"
+              >Edit Recipe</a
+            >
+          </li>
+          <li><a style="cursor: pointer">Delete Recipe</a></li>
         </ul>
       </button>
     </div>

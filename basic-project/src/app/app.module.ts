@@ -14,6 +14,7 @@ import { DropdownDirective } from './shered/dropdown.directive';
 import { ShoppingListService } from './shopping-list/shoppingList.service';
 import { AppRoutModule } from './app-routing.module';
 import { RecipeNoDetailComponent } from './recipes/recipe-no-detail/recipe-no-detail.component';
+import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { RecipeNoDetailComponent } from './recipes/recipe-no-detail/recipe-no-de
     ShoppingEditComponent,
     DropdownDirective,
     RecipeNoDetailComponent,
+    RecipeEditComponent,
   ],
   imports: [BrowserModule, FormsModule, AppRoutModule],
   providers: [ShoppingListService],

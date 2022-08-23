@@ -10,6 +10,7 @@ import { Recipe } from '../recipes.model';
 })
 export class RecipeDetailComponent implements OnInit {
   recipe: Recipe;
+  id: number;
 
   constructor(
     private recipeService: RecipeService,
@@ -18,7 +19,8 @@ export class RecipeDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.rout.params.subscribe((params: Params) => {
-      this.recipe = this.recipeService.getRecipe(+params['id']);
+      this.id = +params['id'];
+      this.recipe = this.recipeService.getRecipe(this.id);
     });
   }
 
