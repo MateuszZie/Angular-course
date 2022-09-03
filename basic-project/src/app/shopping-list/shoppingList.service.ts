@@ -1,4 +1,4 @@
-import { EventEmitter } from '@angular/core';
+import { Subject } from 'rxjs';
 import { Ingridient } from '../shered/ingredient.model';
 
 export class ShoppingListService {
@@ -11,15 +11,15 @@ export class ShoppingListService {
     return this.ingredients.slice();
   }
 
-  addIngredient = new EventEmitter<Ingridient[]>();
+  addIngredient = new Subject<Ingridient[]>();
 
   addIngredientAndEmit(ingredient: Ingridient) {
     this.ingredients.push(ingredient);
-    this.addIngredient.emit(this.ingredients);
+    this.addIngredient.next(this.ingredients);
   }
 
   addIngredients(ingredients: Ingridient[]) {
     this.ingredients.push(...ingredients);
-    this.addIngredient.emit(this.ingredients);
+    this.addIngredient.next(this.ingredients);
   }
 }
