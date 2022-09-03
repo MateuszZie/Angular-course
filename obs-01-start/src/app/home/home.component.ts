@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { interval, Observable, Subscription } from "rxjs";
+import { filter, map } from "rxjs/operators";
 
 @Component({
   selector: "app-home",
@@ -31,17 +32,22 @@ export class HomeComponent implements OnInit, OnDestroy {
         count++;
       }, 1000);
     });
-    this.firstSybscribe = customIntervalObsrevable.subscribe(
-      (data) => {
-        console.log(data);
-      },
-      (error) => {
-        console.log(error);
-        alert("4 is to much");
-      },
-      () => {
-        console.log("Counting completed!");
-      }
-    );
+    this.firstSybscribe = customIntervalObsrevable
+      .pipe(
+        filter((data) => data > 1),
+        map((data: number) => "Round: " + (data + 1))
+      )
+      .subscribe(
+        (data) => {
+          console.log(data);
+        },
+        (error) => {
+          console.log(error);
+          alert("4 is to much");
+        },
+        () => {
+          console.log("Counting completed!");
+        }
+      );
   }
 }
