@@ -22,11 +22,26 @@ export class HomeComponent implements OnInit, OnDestroy {
       let count = 0;
       setInterval(() => {
         observer.next(count);
+        if (count === 4) {
+          observer.error(new Error("To mouch counting"));
+        }
+        if (count === 3) {
+          observer.complete();
+        }
         count++;
       }, 1000);
     });
-    this.firstSybscribe = customIntervalObsrevable.subscribe((data) => {
-      console.log(data);
-    });
+    this.firstSybscribe = customIntervalObsrevable.subscribe(
+      (data) => {
+        console.log(data);
+      },
+      (error) => {
+        console.log(error);
+        alert("4 is to much");
+      },
+      () => {
+        console.log("Counting completed!");
+      }
+    );
   }
 }
