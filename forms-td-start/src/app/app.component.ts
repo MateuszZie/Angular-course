@@ -13,6 +13,8 @@ export class AppComponent {
   answer = "";
   genders = ["male", "female"];
   defaultGender = "male";
+  user = { username: "", email: "", secret: "", question: "", gender: "" };
+  submited = false;
 
   suggestUserName() {
     const suggestedName = "Superuser";
@@ -33,6 +35,11 @@ export class AppComponent {
   // }
 
   onSubmit() {
-    console.log(this.form);
+    this.submited = true;
+    this.user.username = this.form.value.userData.username;
+    this.user.email = this.form.value.userData.email;
+    this.user.secret = this.form.value.secret;
+    this.user.question = this.form.value.questionAnswer;
+    this.user.gender = this.form.value.radio;
   }
 }
