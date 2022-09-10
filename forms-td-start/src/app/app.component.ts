@@ -9,6 +9,8 @@ import { NgForm } from "@angular/forms";
 export class AppComponent {
   @ViewChild("f") form: NgForm;
 
+  defaulQuestion = "pet";
+
   suggestUserName() {
     const suggestedName = "Superuser";
   }
