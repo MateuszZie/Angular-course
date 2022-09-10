@@ -8,6 +8,7 @@ import { NgForm } from "@angular/forms";
 })
 export class AppComponent {
   @ViewChild("f") form: NgForm;
+  @ViewChild("pf") pForm: NgForm;
 
   defaulQuestion = "pet";
   answer = "";
@@ -15,6 +16,10 @@ export class AppComponent {
   defaultGender = "male";
   user = { username: "", email: "", secret: "", question: "", gender: "" };
   submited = false;
+
+  level = "advanced";
+
+  options = ["basic", "advanced", "pro"];
 
   suggestUserName() {
     const suggestedName = "Superuser";
@@ -42,5 +47,9 @@ export class AppComponent {
     this.user.question = this.form.value.questionAnswer;
     this.user.gender = this.form.value.radio;
     this.form.reset();
+  }
+
+  pSubimt() {
+    console.log(this.pForm.value);
   }
 }
