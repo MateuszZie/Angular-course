@@ -40,7 +40,7 @@ export class AppComponent implements OnInit {
 
   forbiddenName(control: FormControl): { [s: string]: boolean } {
     if (this.forbidenNames.includes(control.value)) {
-      return { TestUsernameForbiden: true };
+      return { usernameForbiden: true };
     }
     return null;
   }
