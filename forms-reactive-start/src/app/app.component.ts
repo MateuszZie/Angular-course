@@ -10,7 +10,9 @@ import { Observable } from "rxjs";
 export class AppComponent implements OnInit {
   genders = ["male", "female"];
   signupForm: FormGroup;
+  pForm: FormGroup;
   forbidenNames = ["Test", "test"];
+  status = ["Stable", "Critical", "Finished"];
 
   ngOnInit(): void {
     this.signupForm = new FormGroup({
@@ -41,6 +43,19 @@ export class AppComponent implements OnInit {
       hobbies: [],
     });
     this.signupForm.patchValue({ userData: { username: "Adam" } });
+
+    this.pForm = new FormGroup({
+      projectName: new FormControl(null, [
+        Validators.required,
+        this.vallidProjectName,
+      ]),
+      pEmail: new FormControl(
+        null,
+        [Validators.required, Validators.email],
+        this.asyncpEmail
+      ),
+      status: new FormControl(null),
+    });
   }
 
   onSubmit() {
@@ -73,6 +88,30 @@ export class AppComponent implements OnInit {
           resolve(null);
         }
       }, 1500);
+    });
+    return promise;
+  }
+
+  pSubmit() {
+    console.log(this.pForm.value);
+  }
+
+  vallidProjectName(control: FormControl): { [s: string]: boolean } {
+    if (control.value === "Test") {
+      return { InvalidName: true };
+    }
+    return null;
+  }
+
+  asyncpEmail(control: FormControl): Promise<any> | Observable<any> {
+    const promise = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (control.value === "test@test.pl") {
+          resolve({ invalidEmail: true });
+        } else {
+          resolve(null);
+        }
+      }, 2000);
     });
     return promise;
   }
