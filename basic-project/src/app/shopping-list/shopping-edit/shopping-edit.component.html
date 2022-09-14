@@ -35,7 +35,14 @@
           >
             {{ editMode ? "Update" : "Add" }}
           </button>
-          <button type="button" class="btn btn-danger">Delete</button>
+          <button
+            *ngIf="editMode"
+            type="button"
+            class="btn btn-danger"
+            (click)="delete()"
+          >
+            Delete
+          </button>
           <button type="button" class="btn btn-primary" (click)="clear()">
             Clear
           </button>
