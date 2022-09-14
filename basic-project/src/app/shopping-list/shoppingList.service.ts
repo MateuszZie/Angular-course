@@ -7,6 +7,8 @@ export class ShoppingListService {
     new Ingridient('tomatoes', 10),
   ];
 
+  editIndex = new Subject<number>();
+
   getIngredients() {
     return this.ingredients.slice();
   }
@@ -21,5 +23,9 @@ export class ShoppingListService {
   addIngredients(ingredients: Ingridient[]) {
     this.ingredients.push(...ingredients);
     this.addIngredient.next(this.ingredients);
+  }
+
+  getIngridientByindexId(index: number): Ingridient {
+    return this.ingredients[index];
   }
 }

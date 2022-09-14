@@ -10,8 +10,15 @@ import { ShoppingListService } from '../shoppingList.service';
 })
 export class ShoppingEditComponent implements OnInit {
   constructor(private shoppingListService: ShoppingListService) {}
+  editMode = false;
+  editIndexNumber: number;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.shoppingListService.editIndex.subscribe((num) => {
+      this.editMode = true;
+      this.editIndexNumber = num;
+    });
+  }
 
   addIngredients(form: NgForm) {
     const value = form.value;
