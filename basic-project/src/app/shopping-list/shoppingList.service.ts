@@ -25,7 +25,12 @@ export class ShoppingListService {
     this.addIngredient.next(this.ingredients);
   }
 
-  getIngridientByindexId(index: number): Ingridient {
+  updateIngredientByIndexId(index: number, ingredient: Ingridient): void {
+    this.ingredients[index] = ingredient;
+    this.addIngredient.next(this.ingredients);
+  }
+
+  getIngredientByindexId(index: number): Ingridient {
     return this.ingredients[index];
   }
 }
