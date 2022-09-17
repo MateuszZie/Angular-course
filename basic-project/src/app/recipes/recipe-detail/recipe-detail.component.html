@@ -29,7 +29,14 @@
               >Edit Recipe</a
             >
           </li>
-          <li><a style="cursor: pointer">Delete Recipe</a></li>
+          <li>
+            <a
+              style="cursor: pointer"
+              (click)="deleteRecipe()"
+              [routerLink]="['../../']"
+              >Delete Recipe</a
+            >
+          </li>
         </ul>
       </button>
     </div>
