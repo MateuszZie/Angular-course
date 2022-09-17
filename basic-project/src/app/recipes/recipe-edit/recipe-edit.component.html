@@ -37,13 +37,14 @@
               id="urlPath"
               class="form-control"
               formControlName="imgPath"
+              #imgPath
             />
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-xs-12">
-          <img src="" alt="" class="img-responsive" />
+          <img [src]="imgPath.value" alt="" class="img-responsive" />
         </div>
       </div>
       <div class="row">
@@ -79,7 +80,7 @@
               />
             </div>
             <div class="col-xs-2">
-              <button class="btn btn-danger">X</button>
+              <button class="btn btn-danger" type="button">X</button>
             </div>
           </div>
         </div>
