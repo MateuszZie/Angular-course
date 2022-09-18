@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
     "https://ng-complete-guide-ce1ed-default-rtdb.europe-west1.firebasedatabase.app/";
   private static SEND_POST = AppComponent.HTTP_ADRES + "posts.json";
 
-  loadedPosts = [];
+  loadedPosts: Post[] = [];
 
   constructor(private http: HttpClient) {}
 
@@ -51,6 +51,6 @@ export class AppComponent implements OnInit {
           return newArray;
         })
       )
-      .subscribe((response) => console.log(response));
+      .subscribe((response) => (this.loadedPosts = response));
   }
 }
