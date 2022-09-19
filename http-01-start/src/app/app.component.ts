@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
 
   onCreatePost(postData: { title: string; content: string }) {
     // Send Http request
-    this.postService.createPost(postData);
+    this.postService.createPost(postData).subscribe(() => this.fetchPosts());
   }
 
   onFetchPosts() {
@@ -30,6 +30,7 @@ export class AppComponent implements OnInit {
 
   onClearPosts() {
     // Send Http request
+    this.postService.deletePosts().subscribe(() => (this.loadedPosts = []));
   }
 
   private fetchPosts() {

@@ -13,9 +13,7 @@ export class PostsService {
   constructor(private http: HttpClient) {}
 
   createPost(postData: { title: string; content: string }) {
-    this.http
-      .post<{ name: string }>(PostsService.SEND_POST, postData)
-      .subscribe((response) => console.log(response));
+    return this.http.post<{ name: string }>(PostsService.SEND_POST, postData);
   }
 
   public fetchPosts() {
@@ -30,5 +28,9 @@ export class PostsService {
         return newArray;
       })
     );
+  }
+
+  public deletePosts() {
+    return this.http.delete(PostsService.SEND_POST);
   }
 }
