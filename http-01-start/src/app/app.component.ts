@@ -43,8 +43,13 @@ export class AppComponent implements OnInit {
         this.isLoading = false;
       },
       (error) => {
+        this.isLoading = false;
         this.error = error.message;
       }
     );
+  }
+
+  hideErrorMessage() {
+    this.error = null;
   }
 }
