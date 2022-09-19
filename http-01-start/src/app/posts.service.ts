@@ -12,8 +12,6 @@ export class PostsService {
 
   constructor(private http: HttpClient) {}
 
-  loadedPosts = new Subject<Post[]>();
-
   createPost(postData: { title: string; content: string }) {
     this.http
       .post<{ name: string }>(PostsService.SEND_POST, postData)
@@ -21,21 +19,16 @@ export class PostsService {
   }
 
   public fetchPosts() {
-    this.http
-      .get<{ [key: string]: Post }>(PostsService.SEND_POST)
-      .pipe(
-        map((resposData) => {
-          const newArray: Post[] = [];
-          for (const key in resposData) {
-            if (resposData.hasOwnProperty(key)) {
-              newArray.push({ ...resposData[key], id: key });
-            }
+    return this.http.get<{ [key: string]: Post }>(PostsService.SEND_POST).pipe(
+      map((resposData) => {
+        const newArray: Post[] = [];
+        for (const key in resposData) {
+          if (resposData.hasOwnProperty(key)) {
+            newArray.push({ ...resposData[key], id: key });
           }
-          return newArray;
-        })
-      )
-      .subscribe((response) => {
-        this.loadedPosts.next(response);
-      });
+        }
+        return newArray;
+      })
+    );
   }
 }
