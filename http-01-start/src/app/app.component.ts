@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { map } from "rxjs/operators";
 import { Post } from "./post.model";
+import { PostsService } from "./posts.service";
 
 @Component({
   selector: "app-root",
@@ -9,54 +8,33 @@ import { Post } from "./post.model";
   styleUrls: ["./app.component.css"],
 })
 export class AppComponent implements OnInit {
-  private static HTTP_ADRES =
-    "https://ng-complete-guide-ce1ed-default-rtdb.europe-west1.firebasedatabase.app/";
-  private static SEND_POST = AppComponent.HTTP_ADRES + "posts.json";
-
   isLoading = false;
 
   loadedPosts: Post[] = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private postService: PostsService) {}
 
   ngOnInit() {
-    this.fetchPosts();
+    this.isLoading = true;
+    this.postService.fetchPosts();
+    this.postService.loadedPosts.subscribe((posts) => {
+      this.loadedPosts = posts;
+      this.isLoading = false;
+    });
   }
 
   onCreatePost(postData: { title: string; content: string }) {
     // Send Http request
-    this.http
-      .post<{ name: string }>(AppComponent.SEND_POST, postData)
-      .subscribe((response) => console.log(response));
+    this.postService.createPost(postData);
   }
 
   onFetchPosts() {
     // Send Http request
-    this.fetchPosts();
+    this.isLoading = true;
+    this.postService.fetchPosts();
   }
 
   onClearPosts() {
     // Send Http request
-  }
-
-  private fetchPosts() {
-    this.isLoading = true;
-    this.http
-      .get<{ [key: string]: Post }>(AppComponent.SEND_POST)
-      .pipe(
-        map((resposData) => {
-          const newArray: Post[] = [];
-          for (const key in resposData) {
-            if (resposData.hasOwnProperty(key)) {
-              newArray.push({ ...resposData[key], id: key });
-            }
-          }
-          return newArray;
-        })
-      )
-      .subscribe((response) => {
-        this.isLoading = false;
-        this.loadedPosts = response;
-      });
   }
 }
