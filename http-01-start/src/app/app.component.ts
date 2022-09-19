@@ -12,6 +12,8 @@ export class AppComponent implements OnInit {
 
   loadedPosts: Post[] = [];
 
+  error = null;
+
   constructor(private postService: PostsService) {}
 
   ngOnInit() {
@@ -35,9 +37,14 @@ export class AppComponent implements OnInit {
 
   private fetchPosts() {
     this.isLoading = true;
-    this.postService.fetchPosts().subscribe((posts) => {
-      this.loadedPosts = posts;
-      this.isLoading = false;
-    });
+    this.postService.fetchPosts().subscribe(
+      (posts) => {
+        this.loadedPosts = posts;
+        this.isLoading = false;
+      },
+      (error) => {
+        this.error = error.message;
+      }
+    );
   }
 }
