@@ -16,13 +16,6 @@ export class InterceptorService implements HttpInterceptor {
     const modyfyRequest = req.clone({
       headers: req.headers.append("Auth", "xyz"),
     });
-    return next.handle(modyfyRequest).pipe(
-      tap((event) => {
-        console.log(event);
-        if (event.type === HttpEventType.Response) {
-          console.log(event.body);
-        }
-      })
-    );
+    return next.handle(modyfyRequest);
   }
 }
