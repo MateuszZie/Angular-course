@@ -51,14 +51,19 @@ export class PostsService {
   }
 
   public deletePosts() {
-    return this.http.delete(PostsService.SEND_POST, { observe: "events" }).pipe(
-      tap((event) => {
-        if (event.type === HttpEventType.Sent) {
-          console.log(event.type);
-        } else if (event.type === HttpEventType.Response) {
-          console.log(event.body);
-        }
+    return this.http
+      .delete(PostsService.SEND_POST, {
+        observe: "events",
+        responseType: "text",
       })
-    );
+      .pipe(
+        tap((event) => {
+          if (event.type === HttpEventType.Sent) {
+            console.log(event);
+          } else if (event.type === HttpEventType.Response) {
+            console.log(event.body);
+          }
+        })
+      );
   }
 }
