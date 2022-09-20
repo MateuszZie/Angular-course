@@ -22,7 +22,10 @@ export class AppComponent implements OnInit {
 
   onCreatePost(postData: { title: string; content: string }) {
     // Send Http request
-    this.postService.createPost(postData).subscribe(() => this.fetchPosts());
+    this.postService.createPost(postData).subscribe((response) => {
+      this.fetchPosts();
+      console.log(response);
+    });
   }
 
   onFetchPosts() {
