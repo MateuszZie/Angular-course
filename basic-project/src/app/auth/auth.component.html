@@ -18,20 +18,20 @@
           type="password"
           class="form-control"
           ngModel
-          name="passwor"
+          name="password"
           required
           minlength="6"
         />
         <br />
         <button class="btn btn-primary" type="submit" [disabled]="f.invalid">
-          {{ isLoginMode ? "Sign Up" : "Login" }}</button
+          {{ isLoginMode ? "Login" : "Sign Up" }}</button
         >|
         <button
           class="btn btn-primary"
           type="button"
           (click)="swithLoginMode()"
         >
-          {{ isLoginMode ? "Switch to Login" : "Swithch to Sign Up" }}
+          {{ isLoginMode ? "Swithch to Sign Up" : "Switch to Login" }}
         </button>
       </div>
     </form>
