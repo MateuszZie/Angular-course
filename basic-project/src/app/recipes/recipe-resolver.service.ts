@@ -6,15 +6,21 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { DataStorageService } from '../shered/data-stored.service';
+import { RecipeService } from './recipe.service';
 import { Recipe } from './recipes.model';
 
 @Injectable({ providedIn: 'root' })
 export class RecipesResolverService implements Resolve<Recipe[]> {
-  constructor(private dataStorageService: DataStorageService) {}
+  constructor(
+    private dataStorageService: DataStorageService,
+    private recipeService: RecipeService
+  ) {}
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Recipe[] | Observable<Recipe[]> | Promise<Recipe[]> {
+    const recipes = this.recipeService.getRecipes();
+    if (recipes.length !== 0) return recipes;
     return this.dataStorageService.fetchRecipes();
   }
 }
