@@ -18,6 +18,7 @@ import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component
 import { RecipeService } from './recipes/recipe.service';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthComponent } from './auth/auth.component';
+import { LoadingSpinerComponent } from './shered/loading-spiner/loading-spiner.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { AuthComponent } from './auth/auth.component';
     RecipeNoDetailComponent,
     RecipeEditComponent,
     AuthComponent,
+    LoadingSpinerComponent,
   ],
   imports: [
     BrowserModule,

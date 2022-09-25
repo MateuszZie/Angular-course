@@ -11,7 +11,8 @@ export class AuthComponent implements OnInit {
   @ViewChild('f') form: NgForm;
 
   isLoginMode = true;
-
+  isLoading = false;
+  error = null;
   constructor(private authServise: AuthService) {}
 
   ngOnInit(): void {}
@@ -26,13 +27,20 @@ export class AuthComponent implements OnInit {
     }
     const email = this.form.value.email;
     const password = this.form.value.password;
-
+    this.isLoading = true;
     if (this.isLoginMode) {
       console.log('loginMode');
+      this.isLoading = false;
     } else {
       this.authServise.signUp(email, password).subscribe(
-        (response) => console.log(response),
-        (error) => console.log(error)
+        (response) => {
+          console.log(response), (this.isLoading = false);
+        },
+        (error) => {
+          console.log(error);
+          this.error = 'An Error occurred!';
+          this.isLoading = false;
+        }
       );
     }
     this.form.reset();
