@@ -13,6 +13,6 @@ export class Header {
   }
 
   fetchRecipes() {
-    this.dataStorageService.fetchRecipes();
+    this.dataStorageService.fetchRecipes().subscribe();
   }
 }
