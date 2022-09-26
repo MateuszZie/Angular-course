@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 interface ResponseAuthData {
   idToken: string;
@@ -16,10 +18,24 @@ export class AuthService {
   constructor(private httpClient: HttpClient) {}
 
   signUp(email: string, password: string) {
-    return this.httpClient.post<ResponseAuthData>(this.ADRES, {
-      email: email,
-      password: password,
-      returnSecureToken: true,
-    });
+    return this.httpClient
+      .post<ResponseAuthData>(this.ADRES, {
+        email: email,
+        password: password,
+        returnSecureToken: true,
+      })
+      .pipe(
+        catchError((err) => {
+          let errorMessage = 'An unknown error message';
+          if (!err.error || !err.error.error) {
+            return throwError(errorMessage);
+          }
+          switch (err.error.error.message) {
+            case 'EMAIL_EXISTS':
+              errorMessage = 'Email allready exist';
+          }
+          return throwError(errorMessage);
+        })
+      );
   }
 }
