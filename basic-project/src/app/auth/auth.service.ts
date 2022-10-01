@@ -82,6 +82,29 @@ export class AuthService {
     expireAt: number
   ) {
     const expiredDate = new Date(new Date().getTime() + expireAt * 1000);
-    this.user.next(new User(email, password, token, expiredDate));
+    const user = new User(email, password, token, expiredDate);
+    this.user.next(user);
+    localStorage.setItem('userData', JSON.stringify(user));
+  }
+
+  autoLogin() {
+    const storageUser: {
+      email: string;
+      id: string;
+      _token: string;
+      _expirationTokenDate: string;
+    } = JSON.parse(localStorage.getItem('userData'));
+
+    if (storageUser) {
+      const userFromStorage = new User(
+        storageUser.email,
+        storageUser.id,
+        storageUser._token,
+        new Date(storageUser._expirationTokenDate)
+      );
+      if (userFromStorage.token) {
+        this.user.next(userFromStorage);
+      }
+    }
   }
 }
