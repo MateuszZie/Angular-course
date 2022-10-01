@@ -35,6 +35,6 @@ export class Header implements OnInit, OnDestroy {
   }
 
   logout() {
-    this.isAuthenticated = false;
+    this.authService.user.next(null);
   }
 }
