@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -27,26 +27,37 @@ export class AuthService {
         password: password,
         returnSecureToken: true,
       })
-      .pipe(
-        catchError((err) => {
-          let errorMessage = 'An unknown error message';
-          if (!err.error || !err.error.error) {
-            return throwError(errorMessage);
-          }
-          switch (err.error.error.message) {
-            case 'EMAIL_EXISTS':
-              errorMessage = 'Email allready exist';
-          }
-          return throwError(errorMessage);
-        })
-      );
+      .pipe(catchError(this.handleError));
   }
 
   login(email: string, password: string) {
-    return this.httpClient.post<ResponseAuthData>(this.SIGN_IN, {
-      email: email,
-      password: password,
-      returnSecureToken: true,
-    });
+    return this.httpClient
+      .post<ResponseAuthData>(this.SIGN_IN, {
+        email: email,
+        password: password,
+        returnSecureToken: true,
+      })
+      .pipe(catchError(this.handleError));
+  }
+
+  private handleError(errResponse: HttpErrorResponse) {
+    let errorMessage = 'An unknown error message';
+    if (!errResponse.error || !errResponse.error.error) {
+      return throwError(errorMessage);
+    }
+    switch (errResponse.error.error.message) {
+      case 'EMAIL_EXISTS':
+        errorMessage = 'Email allready exist';
+        break;
+      case 'EMAIL_NOT_FOUND':
+        errorMessage =
+          'There is no user record corresponding to this identifier';
+        break;
+      case 'INVALID_PASSWORD':
+        errorMessage =
+          'The password is invalid or the user does not have a password.';
+        break;
+    }
+    return throwError(errorMessage);
   }
 }
