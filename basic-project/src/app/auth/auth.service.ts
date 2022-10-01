@@ -1,7 +1,8 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Subject, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
+import { User } from './user.model';
 
 export interface ResponseAuthData {
   idToken: string;
@@ -18,6 +19,9 @@ export class AuthService {
     'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyA4Bfx-JzFi39YV--xmB1KAf9jR6A_uS0c';
   private SIGN_IN =
     'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyA4Bfx-JzFi39YV--xmB1KAf9jR6A_uS0c';
+
+  user = new Subject<User>();
+
   constructor(private httpClient: HttpClient) {}
 
   signUp(email: string, password: string) {
@@ -37,7 +41,17 @@ export class AuthService {
         password: password,
         returnSecureToken: true,
       })
-      .pipe(catchError(this.handleError));
+      .pipe(
+        catchError(this.handleError),
+        tap((resData) =>
+          this.handleAuthentication(
+            resData.email,
+            resData.localId,
+            resData.idToken,
+            +resData.expiresIn
+          )
+        )
+      );
   }
 
   private handleError(errResponse: HttpErrorResponse) {
@@ -47,7 +61,7 @@ export class AuthService {
     }
     switch (errResponse.error.error.message) {
       case 'EMAIL_EXISTS':
-        errorMessage = 'Email allready exist';
+        errorMessage = 'Email already exist';
         break;
       case 'EMAIL_NOT_FOUND':
         errorMessage =
@@ -59,5 +73,15 @@ export class AuthService {
         break;
     }
     return throwError(errorMessage);
+  }
+
+  handleAuthentication(
+    email: string,
+    password: string,
+    token: string,
+    expireAt: number
+  ) {
+    const expiredDate = new Date(new Date().getTime() + expireAt * 1000);
+    this.user.next(new User(email, password, token, expiredDate));
   }
 }
