@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Subject, throwError } from 'rxjs';
+import { BehaviorSubject, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { User } from './user.model';
 
@@ -20,7 +20,7 @@ export class AuthService {
   private SIGN_IN =
     'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyA4Bfx-JzFi39YV--xmB1KAf9jR6A_uS0c';
 
-  user = new Subject<User>();
+  user = new BehaviorSubject<User>(null);
 
   constructor(private httpClient: HttpClient) {}
 

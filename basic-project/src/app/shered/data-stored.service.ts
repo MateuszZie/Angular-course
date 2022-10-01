@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { RecipeService } from '../recipes/recipe.service';
 import { Recipe } from '../recipes/recipes.model';
-import { map, tap } from 'rxjs';
+import { exhaustMap, map, take, tap } from 'rxjs';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class DataStorageService {
@@ -10,7 +11,8 @@ export class DataStorageService {
     'https://ng-complete-guide-ce1ed-default-rtdb.europe-west1.firebasedatabase.app/recipes.json';
   constructor(
     private httpClient: HttpClient,
-    private recipeServices: RecipeService
+    private recipeServices: RecipeService,
+    private authService: AuthService
   ) {}
 
   storeRecipes() {
@@ -21,7 +23,13 @@ export class DataStorageService {
   }
 
   fetchRecipes() {
-    return this.httpClient.get<Recipe[]>(this.RECIPES_ADRES).pipe(
+    return this.authService.user.pipe(
+      take(1),
+      exhaustMap((user) => {
+        return this.httpClient.get<Recipe[]>(this.RECIPES_ADRES, {
+          params: new HttpParams().set('auth', user.token),
+        });
+      }),
       map((recipes) =>
         recipes.map((recipe) => {
           return {
