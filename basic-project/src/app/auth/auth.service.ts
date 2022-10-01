@@ -1,5 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { User } from './user.model';
@@ -22,7 +23,9 @@ export class AuthService {
 
   user = new BehaviorSubject<User>(null);
 
-  constructor(private httpClient: HttpClient) {}
+  logoutTimer: any;
+
+  constructor(private httpClient: HttpClient, private router: Router) {}
 
   signUp(email: string, password: string) {
     return this.httpClient
@@ -85,6 +88,7 @@ export class AuthService {
     const user = new User(email, password, token, expiredDate);
     this.user.next(user);
     localStorage.setItem('userData', JSON.stringify(user));
+    this.autoLogout(expireAt * 1000);
   }
 
   autoLogin() {
@@ -96,15 +100,33 @@ export class AuthService {
     } = JSON.parse(localStorage.getItem('userData'));
 
     if (storageUser) {
+      let expireDate = new Date(storageUser._expirationTokenDate);
       const userFromStorage = new User(
         storageUser.email,
         storageUser.id,
         storageUser._token,
-        new Date(storageUser._expirationTokenDate)
+        expireDate
       );
       if (userFromStorage.token) {
         this.user.next(userFromStorage);
+        this.autoLogout(new Date().getTime() - expireDate.getTime());
       }
     }
+  }
+
+  logout() {
+    localStorage.removeItem('userData');
+    this.user.next(null);
+    if (this.logoutTimer) {
+      clearTimeout(this.logoutTimer);
+    }
+    this.logoutTimer = null;
+    this.router.navigate(['/auth']);
+  }
+
+  autoLogout(expireAt: number) {
+    this.logoutTimer = setTimeout(() => {
+      this.logout();
+    }, expireAt);
   }
 }

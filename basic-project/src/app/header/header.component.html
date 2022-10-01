@@ -17,11 +17,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-          <a
-            style="cursor: pointer"
-            [routerLink]="['/auth']"
-            *ngIf="isAuthenticated"
-            (click)="logout()"
+          <a style="cursor: pointer" *ngIf="isAuthenticated" (click)="logout()"
             >Logout</a
           >
         </li>
