@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService, ResponseAuthData } from './auth.service';
 
@@ -14,7 +15,7 @@ export class AuthComponent implements OnInit {
   isLoginMode = true;
   isLoading = false;
   error = null;
-  constructor(private authServise: AuthService) {}
+  constructor(private authServise: AuthService, private router: Router) {}
 
   loginObservable: Observable<ResponseAuthData>;
 
@@ -40,6 +41,7 @@ export class AuthComponent implements OnInit {
     this.loginObservable.subscribe(
       (response) => {
         console.log(response), (this.isLoading = false);
+        this.router.navigate(['/recipies']);
       },
       (error) => {
         console.log(error);
