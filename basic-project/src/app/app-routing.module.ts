@@ -4,8 +4,6 @@ import { AuthComponent } from './auth/auth.component';
 
 const appRouts: Routes = [
   { path: '', redirectTo: '/recipies', pathMatch: 'full' },
-
-  { path: 'auth', component: AuthComponent },
 ];
 
 @NgModule({
