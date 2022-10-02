@@ -1,12 +1,13 @@
 import {
   Component,
   ComponentFactoryResolver,
+  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { AlertComponent } from '../shered/alert/alert/alert.component';
 import { PlaceHolderDirective } from '../shered/placeholder.directive';
 import { AuthService, ResponseAuthData } from './auth.service';
@@ -16,7 +17,7 @@ import { AuthService, ResponseAuthData } from './auth.service';
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.css'],
 })
-export class AuthComponent implements OnInit {
+export class AuthComponent implements OnInit, OnDestroy {
   @ViewChild('f') form: NgForm;
   @ViewChild(PlaceHolderDirective) errorHolder: PlaceHolderDirective;
 
@@ -30,6 +31,8 @@ export class AuthComponent implements OnInit {
   ) {}
 
   loginObservable: Observable<ResponseAuthData>;
+
+  closeSub: Subscription;
 
   ngOnInit(): void {}
 
@@ -75,6 +78,17 @@ export class AuthComponent implements OnInit {
 
     const hostViewContainer = this.errorHolder.viewContainerRef;
     hostViewContainer.clear();
-    hostViewContainer.createComponent(cmpFactoryRes);
+    const compRef = hostViewContainer.createComponent(cmpFactoryRes);
+    compRef.instance.message = message;
+    this.closeSub = compRef.instance.close.subscribe(() => {
+      this.closeSub.unsubscribe();
+      hostViewContainer.clear();
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.closeSub) {
+      this.closeSub.unsubscribe();
+    }
   }
 }
