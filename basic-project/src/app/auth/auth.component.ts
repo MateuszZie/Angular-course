@@ -1,7 +1,13 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ComponentFactoryResolver,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { AlertComponent } from '../shered/alert/alert/alert.component';
 import { AuthService, ResponseAuthData } from './auth.service';
 
 @Component({
@@ -15,7 +21,11 @@ export class AuthComponent implements OnInit {
   isLoginMode = true;
   isLoading = false;
   error = null;
-  constructor(private authServise: AuthService, private router: Router) {}
+  constructor(
+    private authServise: AuthService,
+    private router: Router,
+    private componentFactoryResolver: ComponentFactoryResolver
+  ) {}
 
   loginObservable: Observable<ResponseAuthData>;
 
@@ -46,6 +56,7 @@ export class AuthComponent implements OnInit {
       (error) => {
         console.log(error);
         this.error = error;
+        this.displayErrorMessage(error);
         this.isLoading = false;
       }
     );
@@ -54,5 +65,9 @@ export class AuthComponent implements OnInit {
 
   handleError() {
     this.error = null;
+  }
+
+  private displayErrorMessage(message: string) {
+    this.componentFactoryResolver.resolveComponentFactory(AlertComponent);
   }
 }
