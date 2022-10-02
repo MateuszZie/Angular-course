@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { Secret } from './secret';
 import { User } from './user.model';
 
 export interface ResponseAuthData {
@@ -16,11 +17,6 @@ export interface ResponseAuthData {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private SIGN_UP =
-    'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyA4Bfx-JzFi39YV--xmB1KAf9jR6A_uS0c';
-  private SIGN_IN =
-    'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyA4Bfx-JzFi39YV--xmB1KAf9jR6A_uS0c';
-
   user = new BehaviorSubject<User>(null);
 
   logoutTimer: any;
@@ -29,7 +25,7 @@ export class AuthService {
 
   signUp(email: string, password: string) {
     return this.httpClient
-      .post<ResponseAuthData>(this.SIGN_UP, {
+      .post<ResponseAuthData>(Secret.SIGN_UP, {
         email: email,
         password: password,
         returnSecureToken: true,
@@ -39,7 +35,7 @@ export class AuthService {
 
   login(email: string, password: string) {
     return this.httpClient
-      .post<ResponseAuthData>(this.SIGN_IN, {
+      .post<ResponseAuthData>(Secret.SIGN_IN, {
         email: email,
         password: password,
         returnSecureToken: true,
