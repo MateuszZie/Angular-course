@@ -21,6 +21,7 @@ import { AuthComponent } from './auth/auth.component';
 import { LoadingSpinerComponent } from './shered/loading-spiner/loading-spiner.component';
 import { AuthInterceptorService } from './auth/authInterceptor.service';
 import { AlertComponent } from './shered/alert/alert/alert.component';
+import { PlaceHolderDirective } from './shered/placeholder.directive';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { AlertComponent } from './shered/alert/alert/alert.component';
     AuthComponent,
     LoadingSpinerComponent,
     AlertComponent,
+    PlaceHolderDirective,
   ],
   imports: [
     BrowserModule,

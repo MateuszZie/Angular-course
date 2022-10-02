@@ -8,6 +8,7 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AlertComponent } from '../shered/alert/alert/alert.component';
+import { PlaceHolderDirective } from '../shered/placeholder.directive';
 import { AuthService, ResponseAuthData } from './auth.service';
 
 @Component({
@@ -17,6 +18,7 @@ import { AuthService, ResponseAuthData } from './auth.service';
 })
 export class AuthComponent implements OnInit {
   @ViewChild('f') form: NgForm;
+  @ViewChild(PlaceHolderDirective) errorHolder: PlaceHolderDirective;
 
   isLoginMode = true;
   isLoading = false;
@@ -68,6 +70,11 @@ export class AuthComponent implements OnInit {
   }
 
   private displayErrorMessage(message: string) {
-    this.componentFactoryResolver.resolveComponentFactory(AlertComponent);
+    const cmpFactoryRes =
+      this.componentFactoryResolver.resolveComponentFactory(AlertComponent);
+
+    const hostViewContainer = this.errorHolder.viewContainerRef;
+    hostViewContainer.clear();
+    hostViewContainer.createComponent(cmpFactoryRes);
   }
 }
