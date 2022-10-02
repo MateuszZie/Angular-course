@@ -16,17 +16,10 @@ import { AlertComponent } from './shered/alert/alert/alert.component';
 import { PlaceHolderDirective } from './shered/placeholder.directive';
 import { RecipeModule } from './recipes/recipe.module';
 import { ShoppingListModule } from './shopping-list/shopping-list.module';
+import { SharedModule } from './shered/shared.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    Header,
-    DropdownDirective,
-    AuthComponent,
-    LoadingSppinerComponent,
-    AlertComponent,
-    PlaceHolderDirective,
-  ],
+  declarations: [AppComponent, Header, AuthComponent],
   imports: [
     BrowserModule,
     FormsModule,
@@ -35,6 +28,7 @@ import { ShoppingListModule } from './shopping-list/shopping-list.module';
     HttpClientModule,
     RecipeModule,
     ShoppingListModule,
+    SharedModule,
   ],
   providers: [
     ShoppingListService,
