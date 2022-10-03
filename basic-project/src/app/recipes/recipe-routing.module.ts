@@ -9,7 +9,7 @@ import { RecipesComponent } from './recipes.component';
 
 const appRouts: Routes = [
   {
-    path: 'recipies',
+    path: '',
     component: RecipesComponent,
     canActivate: [AuthGuard],
     children: [
@@ -30,7 +30,7 @@ const appRouts: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(appRouts)],
+  imports: [RouterModule.forChild(appRouts)],
   exports: [RouterModule],
 })
 export class RecipeRoutingModule {}
