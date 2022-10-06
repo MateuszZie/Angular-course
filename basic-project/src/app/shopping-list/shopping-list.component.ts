@@ -1,5 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
 import { Ingridient } from '../shered/ingredient.model';
 import { ShoppingListService } from './shoppingList.service';
 
@@ -9,21 +10,25 @@ import { ShoppingListService } from './shoppingList.service';
   styleUrls: ['./shopping-list.component.css'],
   providers: [],
 })
-export class ShoppingListComponent implements OnInit, OnDestroy {
-  ingredients: Ingridient[] = [];
+export class ShoppingListComponent implements OnInit {
+  ingredients: Observable<{ ingredients: Ingridient[] }>;
   ingredientSubject: Subscription;
 
-  constructor(private shoppingListService: ShoppingListService) {}
+  constructor(
+    private shoppingListService: ShoppingListService,
+    private store: Store<{ shoppingList: { ingredients: Ingridient[] } }>
+  ) {}
 
-  ngOnDestroy(): void {
-    this.ingredientSubject.unsubscribe();
-  }
+  // ngOnDestroy(): void {
+  //   this.ingredientSubject.unsubscribe();
+  // }
 
   ngOnInit(): void {
-    this.ingredients = this.shoppingListService.getIngredients();
-    this.ingredientSubject = this.shoppingListService.addIngredient.subscribe(
-      (ingredients: Ingridient[]) => (this.ingredients = ingredients)
-    );
+    this.ingredients = this.store.select('shoppingList');
+    // this.ingredients = this.shoppingListService.getIngredients();
+    // this.ingredientSubject = this.shoppingListService.addIngredient.subscribe(
+    //   (ingredients: Ingridient[]) => (this.ingredients = ingredients)
+    // );
   }
 
   edit(index: number) {

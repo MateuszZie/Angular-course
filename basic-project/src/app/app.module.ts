@@ -5,10 +5,8 @@ import { AppComponent } from './app.component';
 import { Header } from './header/header.component';
 import { AppRoutModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
-import { ShoppingListModule } from './shopping-list/shopping-list.module';
 import { SharedModule } from './shered/shared.module';
 import { CoreModule } from './core.module';
-import { AuthModule } from './auth/auth.module';
 import { StoreModule } from '@ngrx/store';
 import { shoppingListReducer } from './shopping-list/shopping-list.reducer';
 

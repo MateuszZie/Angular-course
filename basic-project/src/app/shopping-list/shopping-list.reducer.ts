@@ -13,7 +13,9 @@ export function shoppingListReducer(
     case ADD_INGREDIENT:
       return {
         ...state,
-        ingredient: [...state.ingredients, action.payload],
+        ingredients: [...state.ingredients, action.payload],
       };
+    default:
+      return state;
   }
 }
