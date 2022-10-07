@@ -1,5 +1,5 @@
 import { Ingridient } from '../shered/ingredient.model';
-import { AddIngredient, ADD_INGREDIENT } from './shopping-list.actions';
+import * as ShoppingActions from './shopping-list.actions';
 
 const initialState = {
   ingredients: [new Ingridient('apples', 5), new Ingridient('tomatoes', 10)],
@@ -7,10 +7,10 @@ const initialState = {
 
 export function shoppingListReducer(
   state = initialState,
-  action: AddIngredient
+  action: ShoppingActions.AddIngredient
 ) {
   switch (action.type) {
-    case ADD_INGREDIENT:
+    case ShoppingActions.ADD_INGREDIENT:
       return {
         ...state,
         ingredients: [...state.ingredients, action.payload],
