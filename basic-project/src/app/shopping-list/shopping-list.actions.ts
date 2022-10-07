@@ -3,6 +3,8 @@ import { Ingridient } from '../shered/ingredient.model';
 
 export const ADD_INGREDIENT = 'ADD_INGREDIENT';
 export const ADD_INGREDIENTS = 'ADD_INGREDIENTS';
+export const UPDATE_INGREDIENT = 'UPDATE_INGREDIENT';
+export const DELETE_INGREDIENT = 'DELETE_INGREDIENT';
 
 export class AddIngredient implements Action {
   readonly type = ADD_INGREDIENT;
@@ -15,4 +17,18 @@ export class AddIngredients implements Action {
   constructor(public payload: Ingridient[]) {}
 }
 
-export type ShoppingActions = AddIngredient | AddIngredients;
+export class UpdateIngredient implements Action {
+  readonly type = UPDATE_INGREDIENT;
+  constructor(public payload: { index: number; ingredient: Ingridient }) {}
+}
+
+export class DeleteIngredient implements Action {
+  readonly type = DELETE_INGREDIENT;
+  constructor(public payload: Number) {}
+}
+
+export type ShoppingActions =
+  | AddIngredient
+  | AddIngredients
+  | UpdateIngredient
+  | DeleteIngredient;
