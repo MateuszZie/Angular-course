@@ -1,11 +1,11 @@
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
-import { Ingridient } from '../shered/ingredient.model';
+import { Ingredient } from '../shered/ingredient.model';
 
 export class ShoppingListService {
-  private ingredients: Ingridient[] = [
-    new Ingridient('apples', 5),
-    new Ingridient('tomatoes', 10),
+  private ingredients: Ingredient[] = [
+    new Ingredient('apples', 5),
+    new Ingredient('tomatoes', 10),
   ];
 
   editIndex = new Subject<number>();
@@ -14,24 +14,24 @@ export class ShoppingListService {
     return this.ingredients.slice();
   }
 
-  addIngredient = new Subject<Ingridient[]>();
+  addIngredient = new Subject<Ingredient[]>();
 
-  addIngredientAndEmit(ingredient: Ingridient) {
+  addIngredientAndEmit(ingredient: Ingredient) {
     this.ingredients.push(ingredient);
     this.addIngredient.next(this.ingredients);
   }
 
-  addIngredients(ingredients: Ingridient[]) {
+  addIngredients(ingredients: Ingredient[]) {
     this.ingredients.push(...ingredients);
     this.addIngredient.next(this.ingredients);
   }
 
-  updateIngredientByIndexId(index: number, ingredient: Ingridient): void {
+  updateIngredientByIndexId(index: number, ingredient: Ingredient): void {
     this.ingredients[index] = ingredient;
     this.addIngredient.next(this.ingredients);
   }
 
-  getIngredientByindexId(index: number): Ingridient {
+  getIngredientByindexId(index: number): Ingredient {
     return this.ingredients[index];
   }
 

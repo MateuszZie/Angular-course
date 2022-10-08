@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import { Ingridient } from '../shered/ingredient.model';
+import { Ingredient } from '../shered/ingredient.model';
 import { ShoppingListService } from './shoppingList.service';
+import * as fromShoppingList from '../shopping-list/shopping-list.reducer';
 
 @Component({
   selector: 'app-shopping-list',
@@ -11,12 +12,12 @@ import { ShoppingListService } from './shoppingList.service';
   providers: [],
 })
 export class ShoppingListComponent implements OnInit {
-  ingredients: Observable<{ ingredients: Ingridient[] }>;
+  ingredients: Observable<{ ingredients: Ingredient[] }>;
   ingredientSubject: Subscription;
 
   constructor(
     private shoppingListService: ShoppingListService,
-    private store: Store<{ shoppingList: { ingredients: Ingridient[] } }>
+    private store: Store<fromShoppingList.AppState>
   ) {}
 
   // ngOnDestroy(): void {

@@ -2,9 +2,10 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { Ingridient } from 'src/app/shered/ingredient.model';
+import { Ingredient } from 'src/app/shered/ingredient.model';
 import { ShoppingListService } from '../shoppingList.service';
 import * as ShoppingActions from '../shopping-list.actions';
+import * as fromShoppingList from '../shopping-list.reducer';
 
 @Component({
   selector: 'app-shopping-edit',
@@ -15,15 +16,15 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   @ViewChild('form') form: NgForm;
   constructor(
     private shoppingListService: ShoppingListService,
-    private store: Store<{ shoppingList: { ingredients: Ingridient[] } }>
+    private store: Store<fromShoppingList.AppState>
   ) {}
-  editSubscryption: Subscription;
+  editSubscription: Subscription;
   editMode = false;
   editIndexNumber: number;
-  editedIngredient: Ingridient;
+  editedIngredient: Ingredient;
 
   ngOnInit(): void {
-    this.editSubscryption = this.shoppingListService.editIndex.subscribe(
+    this.editSubscription = this.shoppingListService.editIndex.subscribe(
       (index) => {
         this.editMode = true;
         this.editIndexNumber = index;
@@ -38,12 +39,12 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.editSubscryption.unsubscribe();
+    this.editSubscription.unsubscribe();
   }
 
   addOrUpdateIngredients() {
     const value = this.form.value;
-    const newIngredient = new Ingridient(value.inputName, value.inputAmount);
+    const newIngredient = new Ingredient(value.inputName, value.inputAmount);
     if (this.editMode) {
       // this.shoppingListService.updateIngredientByIndexId(
       //   this.editIndexNumber,

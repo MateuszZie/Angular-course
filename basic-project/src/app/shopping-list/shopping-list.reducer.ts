@@ -1,12 +1,24 @@
-import { Ingridient } from '../shered/ingredient.model';
+import { Ingredient } from '../shered/ingredient.model';
 import * as ShoppingActions from './shopping-list.actions';
 
-const initialState = {
-  ingredients: [new Ingridient('apples', 5), new Ingridient('tomatoes', 10)],
+export interface AppState {
+  shoppingList: State;
+}
+
+export interface State {
+  ingredients: Ingredient[];
+  editedIngredient: Ingredient;
+  editedIngredientIndex: number;
+}
+
+const initialState: State = {
+  ingredients: [new Ingredient('apples', 5), new Ingredient('tomatoes', 10)],
+  editedIngredient: null,
+  editedIngredientIndex: -1,
 };
 
 export function shoppingListReducer(
-  state = initialState,
+  state: State = initialState,
   action: ShoppingActions.ShoppingActions
 ) {
   switch (action.type) {

@@ -1,10 +1,11 @@
 import { Injectable, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
-import { Ingridient } from '../shered/ingredient.model';
+import { Ingredient } from '../shered/ingredient.model';
 import { ShoppingListService } from '../shopping-list/shoppingList.service';
 import { Recipe } from './recipes.model';
 import * as ShoppingActions from '../shopping-list/shopping-list.actions';
+import * as fromShoppingList from '../shopping-list/shopping-list.reducer';
 
 @Injectable()
 export class RecipeService {
@@ -12,7 +13,7 @@ export class RecipeService {
 
   constructor(
     private shoppingListService: ShoppingListService,
-    private store: Store<{ shoppingList: { ingredients: Ingridient[] } }>
+    private store: Store<fromShoppingList.AppState>
   ) {}
 
   private recipes: Recipe[] = [];
@@ -21,13 +22,13 @@ export class RecipeService {
   //     'A Test Recipe',
   //     'Recipe Description',
   //     'https://img.delicious.com.au/ZCVFCYn_/del/2022/02/chicken-chickpea-curry-163942-1.jpg',
-  //     [new Ingridient('Meat', 1), new Ingridient('Chips', 2)]
+  //     [new Ingredient('Meat', 1), new Ingredient('Chips', 2)]
   //   ),
   //   new Recipe(
   //     'A Test Recipe 2',
   //     'Recipe Description',
   //     'https://img.delicious.com.au/ZCVFCYn_/del/2022/02/chicken-chickpea-curry-163942-1.jpg',
-  //     [new Ingridient('Meat', 2), new Ingridient('Chips', 3)]
+  //     [new Ingredient('Meat', 2), new Ingredient('Chips', 3)]
   //   ),
   // ];
 
@@ -35,7 +36,7 @@ export class RecipeService {
     return this.recipes.slice();
   }
 
-  addIngeredientToShopingList(ingredients: Ingridient[]) {
+  addIngredientToShoppingList(ingredients: Ingredient[]) {
     this.store.dispatch(new ShoppingActions.AddIngredients(ingredients));
     // this.shoppingListService.addIngredients(ingredients);
   }
