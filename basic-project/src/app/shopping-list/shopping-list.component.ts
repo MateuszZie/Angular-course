@@ -4,6 +4,7 @@ import { Observable, Subscription } from 'rxjs';
 import { Ingredient } from '../shered/ingredient.model';
 import { ShoppingListService } from './shoppingList.service';
 import * as fromShoppingList from '../shopping-list/shopping-list.reducer';
+import * as ShoppingListActions from '../shopping-list/shopping-list.actions';
 
 @Component({
   selector: 'app-shopping-list',
@@ -33,6 +34,7 @@ export class ShoppingListComponent implements OnInit {
   }
 
   edit(index: number) {
-    this.shoppingListService.editIndex.next(index);
+    this.store.dispatch(new ShoppingListActions.StartEdit(index));
+    // this.shoppingListService.editIndex.next(index);
   }
 }
