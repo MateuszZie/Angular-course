@@ -2,7 +2,6 @@ import { Injectable, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { Ingredient } from '../shered/ingredient.model';
-import { ShoppingListService } from '../shopping-list/shoppingList.service';
 import { Recipe } from './recipes.model';
 import * as ShoppingActions from '../shopping-list/shopping-list.actions';
 import * as fromShoppingList from '../shopping-list/shopping-list.reducer';
@@ -11,26 +10,9 @@ import * as fromShoppingList from '../shopping-list/shopping-list.reducer';
 export class RecipeService {
   recipeChanged = new Subject<Recipe[]>();
 
-  constructor(
-    private shoppingListService: ShoppingListService,
-    private store: Store<fromShoppingList.AppState>
-  ) {}
+  constructor(private store: Store<fromShoppingList.AppState>) {}
 
   private recipes: Recipe[] = [];
-  // [
-  //   new Recipe(
-  //     'A Test Recipe',
-  //     'Recipe Description',
-  //     'https://img.delicious.com.au/ZCVFCYn_/del/2022/02/chicken-chickpea-curry-163942-1.jpg',
-  //     [new Ingredient('Meat', 1), new Ingredient('Chips', 2)]
-  //   ),
-  //   new Recipe(
-  //     'A Test Recipe 2',
-  //     'Recipe Description',
-  //     'https://img.delicious.com.au/ZCVFCYn_/del/2022/02/chicken-chickpea-curry-163942-1.jpg',
-  //     [new Ingredient('Meat', 2), new Ingredient('Chips', 3)]
-  //   ),
-  // ];
 
   getRecipes() {
     return this.recipes.slice();
@@ -38,7 +20,6 @@ export class RecipeService {
 
   addIngredientToShoppingList(ingredients: Ingredient[]) {
     this.store.dispatch(new ShoppingActions.AddIngredients(ingredients));
-    // this.shoppingListService.addIngredients(ingredients);
   }
 
   getRecipe(id: number): Recipe {

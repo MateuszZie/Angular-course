@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { Ingredient } from '../shered/ingredient.model';
-import { ShoppingListService } from './shoppingList.service';
 import * as fromShoppingList from '../shopping-list/shopping-list.reducer';
 import * as ShoppingListActions from '../shopping-list/shopping-list.actions';
 
@@ -16,25 +15,13 @@ export class ShoppingListComponent implements OnInit {
   ingredients: Observable<{ ingredients: Ingredient[] }>;
   ingredientSubject: Subscription;
 
-  constructor(
-    private shoppingListService: ShoppingListService,
-    private store: Store<fromShoppingList.AppState>
-  ) {}
-
-  // ngOnDestroy(): void {
-  //   this.ingredientSubject.unsubscribe();
-  // }
+  constructor(private store: Store<fromShoppingList.AppState>) {}
 
   ngOnInit(): void {
     this.ingredients = this.store.select('shoppingList');
-    // this.ingredients = this.shoppingListService.getIngredients();
-    // this.ingredientSubject = this.shoppingListService.addIngredient.subscribe(
-    //   (ingredients: Ingridient[]) => (this.ingredients = ingredients)
-    // );
   }
 
   edit(index: number) {
     this.store.dispatch(new ShoppingListActions.StartEdit(index));
-    // this.shoppingListService.editIndex.next(index);
   }
 }
