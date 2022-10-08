@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { Ingredient } from 'src/app/shered/ingredient.model';
 import * as ShoppingActions from '../shopping-list.actions';
 import * as fromShoppingList from '../shopping-list.reducer';
+import * as fromAppStore from '../../store/app.reducer';
 
 @Component({
   selector: 'app-shopping-edit',
@@ -13,7 +14,7 @@ import * as fromShoppingList from '../shopping-list.reducer';
 })
 export class ShoppingEditComponent implements OnInit, OnDestroy {
   @ViewChild('form') form: NgForm;
-  constructor(private store: Store<fromShoppingList.AppState>) {}
+  constructor(private store: Store<fromAppStore.AppState>) {}
   editSubscription: Subscription;
   editMode = false;
   editedIngredient: Ingredient;

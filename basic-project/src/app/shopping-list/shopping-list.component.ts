@@ -4,6 +4,7 @@ import { Observable, Subscription } from 'rxjs';
 import { Ingredient } from '../shered/ingredient.model';
 import * as fromShoppingList from '../shopping-list/shopping-list.reducer';
 import * as ShoppingListActions from '../shopping-list/shopping-list.actions';
+import * as fromAppStore from '../store/app.reducer';
 
 @Component({
   selector: 'app-shopping-list',
@@ -15,7 +16,7 @@ export class ShoppingListComponent implements OnInit {
   ingredients: Observable<{ ingredients: Ingredient[] }>;
   ingredientSubject: Subscription;
 
-  constructor(private store: Store<fromShoppingList.AppState>) {}
+  constructor(private store: Store<fromAppStore.AppState>) {}
 
   ngOnInit(): void {
     this.ingredients = this.store.select('shoppingList');
