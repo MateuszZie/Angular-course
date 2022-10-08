@@ -20,7 +20,6 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   ) {}
   editSubscription: Subscription;
   editMode = false;
-  editIndexNumber: number;
   editedIngredient: Ingredient;
 
   ngOnInit(): void {
@@ -29,7 +28,6 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
       .subscribe((stateDate) => {
         if (stateDate.editedIngredientIndex > -1) {
           this.editMode = true;
-          this.editIndexNumber = stateDate.editedIngredientIndex;
           this.editedIngredient = stateDate.editedIngredient;
           this.form.setValue({
             inputName: this.editedIngredient.name,
@@ -66,12 +64,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
       //   this.editIndexNumber,
       //   newIngredient
       // );
-      this.store.dispatch(
-        new ShoppingActions.UpdateIngredient({
-          index: this.editIndexNumber,
-          ingredient: newIngredient,
-        })
-      );
+      this.store.dispatch(new ShoppingActions.UpdateIngredient(newIngredient));
     } else {
       this.store.dispatch(new ShoppingActions.AddIngredient(newIngredient));
       // this.shoppingListService.addIngredientAndEmit(newIngredient);
@@ -80,9 +73,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   }
 
   delete() {
-    this.store.dispatch(
-      new ShoppingActions.DeleteIngredient(this.editIndexNumber)
-    );
+    this.store.dispatch(new ShoppingActions.DeleteIngredient());
     // this.shoppingListService.deleteIngredient(this.editIndexNumber);
     this.clear();
   }
