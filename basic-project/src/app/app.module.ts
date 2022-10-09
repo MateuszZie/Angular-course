@@ -9,6 +9,8 @@ import { SharedModule } from './shered/shared.module';
 import { CoreModule } from './core.module';
 import { StoreModule } from '@ngrx/store';
 import * as fromAppStore from './store/app.reducer';
+import { AuthEffects } from './auth/store/auth.effects';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [AppComponent, Header],
@@ -19,6 +21,7 @@ import * as fromAppStore from './store/app.reducer';
     SharedModule,
     CoreModule,
     StoreModule.forRoot(fromAppStore.appReducer),
+    EffectsModule.forRoot([AuthEffects]),
   ],
   bootstrap: [AppComponent],
 })

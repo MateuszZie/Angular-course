@@ -83,17 +83,17 @@ export class AuthService {
 
   handleAuthentication(
     email: string,
-    password: string,
+    id: string,
     token: string,
     expireAt: number
   ) {
     const expiredDate = new Date(new Date().getTime() + expireAt * 1000);
-    const user = new User(email, password, token, expiredDate);
+    const user = new User(email, id, token, expiredDate);
     // this.user.next(user);
     this.store.dispatch(
       new AuthActions.Login({
         email: email,
-        password: password,
+        id: id,
         token: token,
         expiredDate: expiredDate,
       })
@@ -123,7 +123,7 @@ export class AuthService {
         this.store.dispatch(
           new AuthActions.Login({
             email: storageUser.email,
-            password: storageUser.id,
+            id: storageUser.id,
             token: storageUser._token,
             expiredDate: expireDate,
           })

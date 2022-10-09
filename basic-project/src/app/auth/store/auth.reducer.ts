@@ -19,7 +19,7 @@ export function authReducer(
         ...state,
         user: new User(
           action.payload.email,
-          action.payload.password,
+          action.payload.id,
           action.payload.token,
           action.payload.expiredDate
         ),
