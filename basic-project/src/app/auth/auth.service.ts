@@ -20,7 +20,7 @@ export interface ResponseAuthData {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  user = new BehaviorSubject<User>(null);
+  // user = new BehaviorSubject<User>(null);
 
   logoutTimer: any;
 
