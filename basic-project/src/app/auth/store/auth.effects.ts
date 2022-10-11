@@ -19,6 +19,9 @@ export interface ResponseAuthData {
 @Injectable()
 export class AuthEffects {
   @Effect()
+  authSignUp = this.actions$.pipe(ofType(AuthActions.SIGNUP_START));
+
+  @Effect()
   authLogin = this.actions$.pipe(
     ofType(AuthActions.LOGIN_START),
     switchMap((authData: AuthActions.LoginStart) => {
@@ -33,7 +36,7 @@ export class AuthEffects {
             const expiredDate = new Date(
               new Date().getTime() + +resData.expiresIn * 1000
             );
-            return new AuthActions.Login({
+            return new AuthActions.AuthenticationSuccess({
               email: resData.email,
               id: resData.localId,
               token: resData.idToken,
@@ -43,7 +46,7 @@ export class AuthEffects {
           catchError((errResponse) => {
             let errorMessage = 'An unknown error message';
             if (!errResponse.error || !errResponse.error.error) {
-              return of(new AuthActions.LoginFail(errorMessage));
+              return of(new AuthActions.AuthenticationFail(errorMessage));
             }
             switch (errResponse.error.error.message) {
               case 'EMAIL_EXISTS':
@@ -58,7 +61,7 @@ export class AuthEffects {
                   'The password is invalid or the user does not have a password.';
                 break;
             }
-            return of(new AuthActions.LoginFail(errorMessage));
+            return of(new AuthActions.AuthenticationFail(errorMessage));
           })
         );
     })
@@ -66,7 +69,7 @@ export class AuthEffects {
 
   @Effect({ dispatch: false })
   authSuccess = this.actions$.pipe(
-    ofType(AuthActions.LOGIN),
+    ofType(AuthActions.AUTHENTICATION_SUCCESS),
     tap(() => this.router.navigate(['/']))
   );
 

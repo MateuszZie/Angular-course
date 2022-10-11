@@ -91,7 +91,7 @@ export class AuthService {
     const user = new User(email, id, token, expiredDate);
     // this.user.next(user);
     this.store.dispatch(
-      new AuthActions.Login({
+      new AuthActions.AuthenticationSuccess({
         email: email,
         id: id,
         token: token,
@@ -121,7 +121,7 @@ export class AuthService {
       if (userFromStorage.token) {
         // this.user.next(userFromStorage);
         this.store.dispatch(
-          new AuthActions.Login({
+          new AuthActions.AuthenticationSuccess({
             email: storageUser.email,
             id: storageUser.id,
             token: storageUser._token,
