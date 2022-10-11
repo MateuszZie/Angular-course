@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { Secret } from '../secret';
 import * as AuthActions from './auth.actions';
 
@@ -32,20 +33,46 @@ export class AuthEffects {
             const expiredDate = new Date(
               new Date().getTime() + +resData.expiresIn * 1000
             );
-            return of(
-              new AuthActions.Login({
-                email: resData.email,
-                id: resData.localId,
-                token: resData.idToken,
-                expiredDate: expiredDate,
-              })
-            );
+            return new AuthActions.Login({
+              email: resData.email,
+              id: resData.localId,
+              token: resData.idToken,
+              expiredDate: expiredDate,
+            });
           }),
-          catchError((errRes) => {
-            return of();
+          catchError((errResponse) => {
+            let errorMessage = 'An unknown error message';
+            if (!errResponse.error || !errResponse.error.error) {
+              return of(new AuthActions.LoginFail(errorMessage));
+            }
+            switch (errResponse.error.error.message) {
+              case 'EMAIL_EXISTS':
+                errorMessage = 'Email already exist';
+                break;
+              case 'EMAIL_NOT_FOUND':
+                errorMessage =
+                  'There is no user record corresponding to this identifier';
+                break;
+              case 'INVALID_PASSWORD':
+                errorMessage =
+                  'The password is invalid or the user does not have a password.';
+                break;
+            }
+            return of(new AuthActions.LoginFail(errorMessage));
           })
         );
     })
   );
-  constructor(private actions$: Actions, private httpClient: HttpClient) {}
+
+  @Effect({ dispatch: false })
+  authSuccess = this.actions$.pipe(
+    ofType(AuthActions.LOGIN),
+    tap(() => this.router.navigate(['/']))
+  );
+
+  constructor(
+    private actions$: Actions,
+    private httpClient: HttpClient,
+    private router: Router
+  ) {}
 }
