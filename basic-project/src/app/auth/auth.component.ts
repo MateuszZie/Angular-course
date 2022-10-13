@@ -33,9 +33,10 @@ export class AuthComponent implements OnInit, OnDestroy {
   ) {}
 
   closeSub: Subscription;
+  storeSub: Subscription;
 
   ngOnInit(): void {
-    this.store.select('auth').subscribe((state) => {
+    this.storeSub = this.store.select('auth').subscribe((state) => {
       this.isLoading = state.loading;
       this.error = state.authError;
       if (this.error) {
@@ -60,7 +61,6 @@ export class AuthComponent implements OnInit, OnDestroy {
         new AuthActions.LoginStart({ email: email, password: password })
       );
     } else {
-      this.authServise.signUp(email, password);
       this.store.dispatch(
         new AuthActions.SignupStart({ email: email, password: password })
       );
@@ -69,7 +69,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   handleError() {
-    this.error = null;
+    this.store.dispatch(new AuthActions.ClearError());
   }
 
   private displayErrorMessage(message: string) {
@@ -89,6 +89,9 @@ export class AuthComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.closeSub) {
       this.closeSub.unsubscribe();
+    }
+    if (this.storeSub) {
+      this.storeSub.unsubscribe();
     }
   }
 }

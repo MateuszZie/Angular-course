@@ -86,8 +86,10 @@ export class AuthEffects {
 
   @Effect({ dispatch: false })
   authSuccess = this.actions$.pipe(
-    ofType(AuthActions.AUTHENTICATION_SUCCESS),
-    tap(() => this.router.navigate(['/']))
+    ofType(AuthActions.AUTHENTICATION_SUCCESS, AuthActions.LOGOUT),
+    tap(() => {
+      this.router.navigate(['/']);
+    })
   );
 
   constructor(

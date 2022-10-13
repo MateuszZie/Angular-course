@@ -4,6 +4,7 @@ import { map, Subscription } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { DataStorageService } from '../shered/data-stored.service';
 import * as fromAppStore from '../store/app.reducer';
+import * as AuthActions from '../auth/store/auth.actions';
 
 @Component({
   selector: 'app-header',
@@ -39,6 +40,6 @@ export class Header implements OnInit, OnDestroy {
   }
 
   logout() {
-    this.authService.logout();
+    this.store.dispatch(new AuthActions.Logout());
   }
 }

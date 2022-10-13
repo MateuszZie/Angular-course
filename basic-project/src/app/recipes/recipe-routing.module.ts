@@ -12,6 +12,7 @@ const appRouts: Routes = [
     path: '',
     component: RecipesComponent,
     canActivate: [AuthGuard],
+    runGuardsAndResolvers: 'always',
     children: [
       {
         path: 'detail/:id',
