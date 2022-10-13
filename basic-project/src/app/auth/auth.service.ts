@@ -19,37 +19,6 @@ export class AuthService {
 
   constructor(private store: Store<fromAppStore.AppState>) {}
 
-  autoLogin() {
-    const storageUser: {
-      email: string;
-      id: string;
-      _token: string;
-      _expirationTokenDate: string;
-    } = JSON.parse(localStorage.getItem('userData'));
-
-    if (storageUser) {
-      let expireDate = new Date(storageUser._expirationTokenDate);
-      const userFromStorage = new User(
-        storageUser.email,
-        storageUser.id,
-        storageUser._token,
-        expireDate
-      );
-      if (userFromStorage.token) {
-        // this.user.next(userFromStorage);
-        this.store.dispatch(
-          new AuthActions.AuthenticationSuccess({
-            email: storageUser.email,
-            id: storageUser.id,
-            token: storageUser._token,
-            expiredDate: expireDate,
-          })
-        );
-        this.autoLogout(new Date().getTime() - expireDate.getTime());
-      }
-    }
-  }
-
   logout() {
     localStorage.removeItem('userData');
     // this.user.next(null);

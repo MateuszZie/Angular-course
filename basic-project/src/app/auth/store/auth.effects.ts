@@ -5,6 +5,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { Secret } from '../secret';
+import { User } from '../user.model';
 import * as AuthActions from './auth.actions';
 
 export interface ResponseAuthData {
@@ -20,6 +21,13 @@ const handleAuthentication = (resData) => {
   const expiredDate = new Date(
     new Date().getTime() + +resData.expiresIn * 1000
   );
+  const user = new User(
+    resData.email,
+    resData.localId,
+    resData.idToken,
+    expiredDate
+  );
+  localStorage.setItem('userData', JSON.stringify(user));
   return new AuthActions.AuthenticationSuccess({
     email: resData.email,
     id: resData.localId,
@@ -85,10 +93,52 @@ export class AuthEffects {
   );
 
   @Effect({ dispatch: false })
-  authSuccess = this.actions$.pipe(
+  authRedirect = this.actions$.pipe(
     ofType(AuthActions.AUTHENTICATION_SUCCESS, AuthActions.LOGOUT),
     tap(() => {
       this.router.navigate(['/']);
+    })
+  );
+
+  @Effect({ dispatch: false })
+  authLogout = this.actions$.pipe(
+    ofType(AuthActions.LOGOUT),
+    tap(() => {
+      localStorage.removeItem('userData');
+    })
+  );
+
+  @Effect()
+  autoLogin = this.actions$.pipe(
+    ofType(AuthActions.AUTO_LOGIN),
+    map(() => {
+      const storageUser: {
+        email: string;
+        id: string;
+        _token: string;
+        _expirationTokenDate: string;
+      } = JSON.parse(localStorage.getItem('userData'));
+
+      if (storageUser) {
+        let expireDate = new Date(storageUser._expirationTokenDate);
+        const userFromStorage = new User(
+          storageUser.email,
+          storageUser.id,
+          storageUser._token,
+          expireDate
+        );
+
+        if (userFromStorage.token) {
+          return new AuthActions.AuthenticationSuccess({
+            email: storageUser.email,
+            id: storageUser.id,
+            token: storageUser._token,
+            expiredDate: expireDate,
+          });
+          // this.autoLogout(new Date().getTime() - expireDate.getTime());
+        }
+      }
+      return { type: 'DUMMY' };
     })
   );
 
