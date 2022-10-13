@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { User } from './user.model';
 import * as fromAppStore from '../store/app.reducer';
 import { Store } from '@ngrx/store';
 import * as AuthActions from './store/auth.actions';
@@ -15,23 +14,20 @@ export interface ResponseAuthData {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  logoutTimer: any;
+  private logoutTimer: any;
 
   constructor(private store: Store<fromAppStore.AppState>) {}
 
-  logout() {
-    localStorage.removeItem('userData');
-    // this.user.next(null);
+  clearLogoutTimer() {
     if (this.logoutTimer) {
       clearTimeout(this.logoutTimer);
     }
     this.logoutTimer = null;
-    // this.router.navigate(['/auth']);
   }
 
-  autoLogout(expireAt: number) {
+  setLogoutTimer(expireAt: number) {
     this.logoutTimer = setTimeout(() => {
-      this.logout();
+      this.store.dispatch(new AuthActions.Logout());
     }, expireAt);
   }
 }
