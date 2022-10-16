@@ -4,7 +4,6 @@ import { Subject } from 'rxjs';
 import { Ingredient } from '../shered/ingredient.model';
 import { Recipe } from './recipes.model';
 import * as ShoppingActions from '../shopping-list/shopping-list.actions';
-import * as fromShoppingList from '../shopping-list/shopping-list.reducer';
 import * as fromAppStore from '../store/app.reducer';
 
 @Injectable()
