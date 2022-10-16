@@ -34,6 +34,7 @@ const handleAuthentication = (resData) => {
     id: resData.localId,
     token: resData.idToken,
     expiredDate: expiredDate,
+    redirect: true,
   });
 };
 
@@ -102,7 +103,13 @@ export class AuthEffects {
   @Effect({ dispatch: false })
   authRedirect = this.actions$.pipe(
     ofType(AuthActions.AUTHENTICATION_SUCCESS, AuthActions.LOGOUT),
-    tap(() => {
+    tap((auth: AuthActions.AuthenticationSuccess | AuthActions.Logout) => {
+      if (
+        auth instanceof AuthActions.AuthenticationSuccess &&
+        !auth.payload.redirect
+      ) {
+        return;
+      }
       this.router.navigate(['/']);
     })
   );
@@ -142,6 +149,7 @@ export class AuthEffects {
             id: storageUser.id,
             token: storageUser._token,
             expiredDate: expireDate,
+            redirect: false,
           });
           // this.autoLogout(new Date().getTime() - expireDate.getTime());
         }
