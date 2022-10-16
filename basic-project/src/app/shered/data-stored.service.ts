@@ -34,10 +34,7 @@ export class DataStorageService {
           };
         })
       ),
-      tap(
-        (data) => this.store.dispatch(new RecipeActions.SetRecipes(data))
-        // (data) => this.recipeServices.setRecipes(data)
-      )
+      tap((data) => this.store.dispatch(new RecipeActions.SetRecipes(data)))
     );
   }
 }

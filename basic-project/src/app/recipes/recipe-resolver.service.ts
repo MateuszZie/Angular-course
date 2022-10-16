@@ -4,23 +4,24 @@ import {
   Resolve,
   RouterStateSnapshot,
 } from '@angular/router';
-import { Observable } from 'rxjs';
-import { DataStorageService } from '../shered/data-stored.service';
-import { RecipeService } from './recipe.service';
+import { Observable, take, tap } from 'rxjs';
 import { Recipe } from './recipes.model';
+import * as fromApp from '../store/app.reducer';
+import { Store } from '@ngrx/store';
+import * as RecipesActions from './store/recipes.actions';
+import { Actions, ofType } from '@ngrx/effects';
 
 @Injectable({ providedIn: 'root' })
 export class RecipesResolverService implements Resolve<Recipe[]> {
   constructor(
-    private dataStorageService: DataStorageService,
-    private recipeService: RecipeService
+    private store: Store<fromApp.AppState>,
+    private actions$: Actions
   ) {}
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Recipe[] | Observable<Recipe[]> | Promise<Recipe[]> {
-    const recipes = this.recipeService.getRecipes();
-    if (recipes.length !== 0) return recipes;
-    return this.dataStorageService.fetchRecipes();
+    this.store.dispatch(new RecipesActions.FetchRecipes());
+    return this.actions$.pipe(ofType(RecipesActions.SET_RECIPES), take(1));
   }
 }
