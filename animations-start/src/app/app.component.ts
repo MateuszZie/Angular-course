@@ -11,7 +11,7 @@ import { Component } from "@angular/core";
         style({ "background-color": "red", transform: "translateX(0)" })
       ),
       state(
-        "highlight",
+        "highlighted",
         style({ "background-color": "blue", transform: "translateX(100px)" })
       ),
     ]),
@@ -20,6 +20,10 @@ import { Component } from "@angular/core";
 export class AppComponent {
   state = "normal";
   list = ["Milk", "Sugar", "Bread"];
+
+  onAnimation() {
+    this.state = this.state === "normal" ? "highlighted" : "normal";
+  }
 
   onAdd(item) {
     this.list.push(item);
