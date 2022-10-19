@@ -52,6 +52,17 @@ import { Component } from "@angular/core";
         animate(500),
       ]),
     ]),
+    trigger("list1", [
+      state("in", style({ opacity: 1, transform: "translateX(0px)" })),
+      transition("void => *", [
+        style({ opacity: 0, transform: "translateX(-200px)" }),
+        animate(2000),
+      ]),
+      transition("* => void", [
+        animate(2000),
+        style({ opacity: 0, transform: "translateX(200px)" }),
+      ]),
+    ]),
   ],
 })
 export class AppComponent {
@@ -70,5 +81,9 @@ export class AppComponent {
 
   onAdd(item) {
     this.list.push(item);
+  }
+
+  onDelete(item) {
+    this.list = this.list.filter((s) => s !== item);
   }
 }
