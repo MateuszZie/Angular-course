@@ -1,4 +1,10 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import {
+  async,
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+} from "@angular/core/testing";
 import { DataService } from "./data.service";
 
 import { UserComponent } from "./user.component";
@@ -60,5 +66,17 @@ describe("UserComponent", () => {
     fixture.whenStable().then(() => {
       expect(component.data).toBe("Data");
     });
+  }));
+
+  it("should get data from data service", fakeAsync(() => {
+    fixture = TestBed.createComponent(UserComponent);
+    component = fixture.debugElement.componentInstance;
+    const service = fixture.debugElement.injector.get(DataService);
+    let spy = spyOn(service, "getDetails").and.returnValue(
+      Promise.resolve("Data")
+    );
+    fixture.detectChanges();
+    tick();
+    expect(component.data).toBe("Data");
   }));
 });
